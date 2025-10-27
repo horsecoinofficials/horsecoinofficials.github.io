@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DOORIOBD Register</title>
+  {% load static %}
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: #0f0f1a;
+    }
+
+    .container {
+      width: 360px;
+      background: #1c1c2b;
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.6),
+                  inset -5px -5px 15px rgba(255, 255, 255, 0.05),
+                  inset 5px 5px 15px rgba(0, 0, 0, 0.8);
+      animation: fadeIn 1s ease forwards;
+      color: #fff;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .container h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      font-size: 1.8rem;
+      color: #f0f0f0;
+    }
+
+    .input-box {
+      position: relative;
+      margin-bottom: 1.2rem;
+    }
+
+    .input-box input {
+      width: 100%;
+      padding: 12px 40px 12px 15px;
+      border: none;
+      border-radius: 12px;
+      outline: none;
+      background: #2b2b3d;
+      color: #fff;
+      font-size: 14px;
+      box-shadow: inset 3px 3px 7px rgba(0, 0, 0, 0.8),
+                  inset -3px -3px 7px rgba(255, 255, 255, 0.05);
+    }
+
+    .input-box span {
+      position: absolute;
+      top: 50%;
+      right: 15px;
+      transform: translateY(-50%);
+      font-size: 16px;
+      color: #888;
+      cursor: pointer;
+    }
+
+    .options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      font-size: 13px;
+    }
+
+    .options label {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(145deg, #2b2b3d, #1a1a28);
+      box-shadow: 5px 5px 10px #0a0a14,
+                  -5px -5px 10px #2e2e44;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      background: linear-gradient(145deg, #1a1a28, #2b2b3d);
+      transform: scale(1.03);
+    }
+
+    .social-login {
+      text-align: center;
+      margin: 1.2rem 0;
+      font-size: 14px;
+      color: #aaa;
+    }
+
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 0.5rem;
+    }
+
+    .social-icons a {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #2b2b3d;
+      border-radius: 50%;
+      box-shadow: 3px 3px 6px #0a0a14,
+                  -3px -3px 6px #2e2e44;
+      transition: 0.3s;
+      color: #fff;
+      font-size: 18px;
+      text-decoration: none;
+    }
+
+    .social-icons a:hover {
+      transform: translateY(-4px);
+      background: #444466;
+    }
+
+    .toggle-text {
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 14px;
+    }
+
+    .toggle-text span {
+      color: #4c8fff;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    
+    /* Phone number validation styles */
+    .input-box.error input {
+      border: 1px solid #ff5252;
+    }
+    
+    .error-message {
+      color: #ff5252;
+      font-size: 12px;
+      margin-top: 5px;
+      display: none;
+    }
+    
+    .error-message.visible {
+      display: block;
+    }
+
+    /* Messages styling */
+    .messages {
+      list-style: none;
+      margin-bottom: 1rem;
+      padding: 0;
+    }
+
+    .messages li {
+      padding: 8px 12px;
+      margin-bottom: 8px;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    .messages .error {
+      background-color: rgba(255, 82, 82, 0.2);
+      color: #ff5252;
+    }
+
+    .messages .success {
+      background-color: rgba(76, 175, 80, 0.2);
+      color: #4caf50;
+    }
+
+    .messages .info {
+      background-color: rgba(33, 150, 243, 0.2);
+      color: #2196f3;
+    }
+
+    .messages .warning {
+      background-color: rgba(255, 152, 0, 0.2);
+      color: #ff9800;
+    }
+
+    .username-field {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="formBox">
+    <h2 id="formTitle">Login</h2>
+    
+    {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    
+    <form id="authForm" method="post" action="{% url 'login' %}">
+      {% csrf_token %}
+      <input type="hidden" name="form_type" id="formType" value="login">
+      
+      <div class="input-box" id="phoneBox">
+        <input type="tel" id="phoneNumber" name="phone_number" placeholder="BD Phone Number (e.g., 01XXXXXXXXX)" required>
+        <span>📱</span>
+        <div class="error-message" id="phoneError">Please enter a valid Bangladesh phone number</div>
+      </div>
+      
+      <div class="input-box username-field" id="usernameBox">
+        <input type="text" id="username" name="username" placeholder="Username">
+        <span>👤</span>
+      </div>
+      
+      <div class="input-box">
+        <input type="email" id="email" name="email" placeholder="Email address">
+        <span>📧</span>
+      </div>
+      
+      <div class="input-box">
+        <input type="password" id="password" name="password" placeholder="Password">
+        <span id="togglePassword">👁</span>
+      </div>
+      
+      <div class="input-box confirm-password" style="display: none;">
+        <input type="password" id="confirmPassword" name="password2" placeholder="Confirm Password">
+        <span id="toggleConfirmPassword">👁</span>
+      </div>
+      
+      <div class="options">
+        <label><input type="checkbox" name="remember_me"> Remember me</label>
+        <a href="{% url 'password_reset' %}" style="color:#4c8fff;text-decoration:none;">Forgot password?</a>
+      </div>
+      
+      <button type="submit" class="btn" id="submitBtn">Sign In</button>
+    </form>
+
+    <div class="social-login">Or continue with</div>
+    <div class="social-icons">
+      <a href="{% url 'socialaccount_login' 'google' %}">G</a>
+      <a href="{% url 'socialaccount_login' 'facebook' %}">f</a>
+    </div>
+
+    <div class="toggle-text">
+      Don't have an account? <span onclick="toggleForm()">Sign up</span>
+    </div>
+  </div>
+
+  <script>
+    let isLogin = true;
+    const form = document.getElementById('authForm');
+    const formType = document.getElementById('formType');
+    const usernameField = document.querySelector('.username-field');
+    const confirmPasswordField = document.querySelector('.confirm-password');
+    const togglePasswordBtn = document.getElementById('togglePassword');
+    const toggleConfirmPasswordBtn = document.getElementById('toggleConfirmPassword');
+    const passwordInput = document.getElementById('password');
+    const confirmPasswordInput = document.getElementById('confirmPassword');
+    
+    // Phone number validation
+    const phoneInput = document.getElementById('phoneNumber');
+    const phoneError = document.getElementById('phoneError');
+    const phoneBox = document.getElementById('phoneBox');
+    
+    phoneInput.addEventListener('input', validatePhone);
+    
+    function validatePhone() {
+      const phonePattern = /^01[3-9]\d{8}$/;
+      if (!phonePattern.test(phoneInput.value) && phoneInput.value !== '') {
+        phoneBox.classList.add('error');
+        phoneError.classList.add('visible');
+        return false;
+      } else {
+        phoneBox.classList.remove('error');
+        phoneError.classList.remove('visible');
+        return true;
+      }
+    }
+    
+    // Toggle password visibility
+    togglePasswordBtn.addEventListener('click', function() {
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        togglePasswordBtn.textContent = '🔒';
+      } else {
+        passwordInput.type = 'password';
+        togglePasswordBtn.textContent = '👁';
+      }
+    });
+    
+    toggleConfirmPasswordBtn.addEventListener('click', function() {
+      if (confirmPasswordInput.type === 'password') {
+        confirmPasswordInput.type = 'text';
+        toggleConfirmPasswordBtn.textContent = '🔒';
+      } else {
+        confirmPasswordInput.type = 'password';
+        toggleConfirmPasswordBtn.textContent = '👁';
+      }
+    });
+    
+    // Form submission validation
+    form.addEventListener('submit', function(e) {
+      if (!validatePhone()) {
+        e.preventDefault();
+        return;
+      }
+      
+      if (!isLogin) {
+        // Check if passwords match for registration
+        if (passwordInput.value !== confirmPasswordInput.value) {
+          e.preventDefault();
+          alert('Passwords do not match!');
+          return;
+        }
+      }
+    });
+    
+    function toggleForm() {
+      let title = document.getElementById("formTitle");
+      let btn = document.getElementById("submitBtn");
+      let toggle = document.querySelector(".toggle-text span");
+
+      if (isLogin) {
+        // Switch to Register
+        title.innerText = "Register";
+        btn.innerText = "Sign Up";
+        toggle.innerText = "Sign in";
+        formType.value = "register";
+        form.action = "{% url 'register' %}";
+        usernameField.style.display = "block";
+        confirmPasswordField.style.display = "block";
+      } else {
+        // Switch to Login
+        title.innerText = "Login";
+        btn.innerText = "Sign In";
+        toggle.innerText = "Sign up";
+        formType.value = "login";
+        form.action = "{% url 'login' %}";
+        usernameField.style.display = "none";
+        confirmPasswordField.style.display = "none";
+      }
+      isLogin = !isLogin;
+    }
+  </script>
+</body>
+</html>
